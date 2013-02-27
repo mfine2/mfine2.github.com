@@ -1,6 +1,6 @@
 markdown: rdiscount
 baseurl: /
 //url: http://localhost:4000
-url: http://lixinye.rog
+url: http://lixinye.org
 paginate: 3
 auto: true;
