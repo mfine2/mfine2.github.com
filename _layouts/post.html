@@ -1,0 +1,13 @@
+---
+layout: index
+---
+<div class="article">
+    <h2 class="article-title">{{ page.title }}</h2>
+    <div class="article-info">
+        <span class="article-date">{{ page.date | date:"%Y-%m-%d" }}</span>
+        <span class="article-cate">{{ page.category }}</span>
+    </div>
+    <div class="article-content">
+        {{ content }}
+    </div><!--article-content end-->
+</div>

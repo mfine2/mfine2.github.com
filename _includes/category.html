@@ -1,9 +1,5 @@
----
-layout: index
-title: 李小四的博客
----
 <ul class="posts">
-{% for post in paginator.posts %}
+{% for post in  site.categories[page.name] %}
     <li class="post-item">
         <h2 class="post-title">
             <a href="{{ site:url }}{{ post.url }}">{{ post.title }}</a>
@@ -29,20 +25,5 @@ title: 李小四的博客
 {% endfor %}
 </ul>
 <div class="pager">
-    <span>第{{ paginator.page }}/{{ paginator.total_pages }}页</span>
-    {% if paginator.previous_page %}
-        {% if paginator.previous_page == 1 %}
-            <a href="{{ site:url }}">上一页</a>
-        {% else %}
-            <a href="{{ site:url }}/page{{ paginator.previous_page }}">上一页</a>
-        {% endif  %}
-    {% else %}
-        <a href="javascript:void(0);" class="disabed">上一页</a>
-    {% endif  %}
-
-    {% if paginator.next_page %}
-        <a href="{{ site:url }}/page{{ paginator.next_page }}">下一页</a>
-    {% else %}
-        <a href="javascript:void(0);" class="disabed">下一页</a>
-    {% endif %}
+    <span>共{{ site.categories[page.name] | size }}条记录</span>
 </div>
