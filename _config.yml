@@ -2,6 +2,6 @@ markdown: rdiscount
 baseurl: /
 //url: http://localhost:4000
 //url: http://lixinye.org
-//url: http://book.try4.org
+url: http://try4.org
 paginate: 3
 auto: true;
