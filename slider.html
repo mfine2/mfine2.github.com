@@ -132,11 +132,13 @@ var indexElement = -1, eleSlideIn = null;
         funIndex();
         return false;
     }).trigger("click");
+    
 var container = $("#box")[0];
 			    if(container.addEventListener && "ontouchstart" in window) {
+			    	alert("bind");
                     container.addEventListener('touchstart', touchObj, false);
                 }
-
+alert("go");
         var touchObj = {
             startX: 0,
             startY: 0,
