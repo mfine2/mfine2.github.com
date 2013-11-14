@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+.box {
+    width: 500px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+}
+.list, .index {
+    position: absolute;
+}
+.index {
+    right: 0px;
+    bottom: 0px;
+}
+.index i {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    border-radius: 12px;
+    background-color: #666;
+    background-color: rgba(0,0,0,.6);
+}
+.index .on {
+    background-color: #cd0000;
+    background-color: rgba(255,0,0,.75);
+}
+@-webkit-keyframes slideinfromright {
+    from { -webkit-transform: translateX(100%); }
+    to { -webkit-transform: translateX(0); }
+}
+@-moz-keyframes slideinfromright {
+    from { -moz-transform: translateX(100%); }
+    to { -moz-transform: translateX(0); }
+}
+@-webkit-keyframes slideinfromleft {
+    from { -webkit-transform: translateX(-100%); }
+    to { -webkit-transform: translateX(0); }
+}
+@-moz-keyframes slideinfromleft {
+    from { -moz-transform: translateX(-100%); }
+    to { -moz-transform: translateX(0); }
+}
+@-webkit-keyframes slideouttoleft {
+    from { -webkit-transform: translateX(0); }
+    to { -webkit-transform: translateX(-100%); }
+}
+@-moz-keyframes slideouttoleft {
+    from { -moz-transform: translateX(0); }
+    to { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes slideouttoright {
+    from { -webkit-transform: translateX(0); }
+    to { -webkit-transform: translateX(100%); }
+}
+@-moz-keyframes slideouttoright {
+    from { -moz-transform: translateX(0); }
+    to { -moz-transform: translateX(100%); }
+}
+
+.in {
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-duration: 350ms;
+	-moz-animation-timing-function: ease-out;
+	-moz-animation-duration: 350ms;
+}
+.out {
+	-webkit-animation-timing-function: ease-in;
+	-webkit-animation-duration: 225ms;
+	-moz-animation-timing-function: ease-in;
+	-moz-animation-duration: 225ms;
+}
+.slide.out, .slide.in {
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-duration: 350ms;
+	-moz-animation-timing-function: ease-out;
+	-moz-animation-duration: 350ms;
+}
+.slide.out {
+	-webkit-transform: translateX(-100%);
+	-webkit-animation-name: slideouttoleft;
+	-moz-transform: translateX(-100%);
+	-moz-animation-name: slideouttoleft;
+}
+.slide.in {
+	-webkit-transform: translateX(0);
+	-webkit-animation-name: slideinfromright;
+	-moz-transform: translateX(0);
+	-moz-animation-name: slideinfromright;
+}
+    </style>
+</head>
+<body>
+<div id="box" class="box">
+    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps1.jpg" /></a>
+    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps2.jpg" /></a>
+    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps3.jpg" /></a>
+    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps4.jpg" /></a>
+    <div id="index" class="index"></div>
+</div>
+<script type="text/javascript" src="http://img3.douban.com/js/packed_jquery.min9556435062.js"></script>
+<script type="text/javascript">
+var eleIndex = $("#index"), eleList = $("#box .list");
+var funIndex = function() {
+    var htmlIndex = '';
+    eleList.each(function() {
+        if ($(this).hasClass("out")) {
+            htmlIndex += '<i></i>';    
+        } else {
+            htmlIndex += '<i class="on"></i>';
+        }
+    });
+    eleIndex.html(htmlIndex);
+};
+
+var indexElement = -1, eleSlideIn = null;
+    $("#box").bind("click", function() {
+        indexElement++;
+        if (indexElement >= eleList.length) {
+            indexElement = 0;
+        }
+        eleSlideIn && eleSlideIn.removeClass("in").addClass("out");
+        eleSlideIn = $(eleList.get(indexElement)).removeClass("out").addClass("in");
+        funIndex();
+        return false;
+    }).trigger("click");
+var container = $("#box")[0];
+			    if(container.addEventListener && "ontouchstart" in window) {
+                    container.addEventListener('touchstart', touchObj, false);
+                }
+
+        var touchObj = {
+            startX: 0,
+            startY: 0,
+            handleEvent: function(e) {
+                switch (e.type) {
+                  case 'touchstart': this.start(e); break;
+                  case 'touchmove': this.move(e); break;
+                  case 'touchend': this.end(e); break;
+                  case 'mouseover': this.over(e); break;
+                }
+            },
+            start: function(e) {
+                var touches = e.changedTouches;
+                if(touches.length > 1 || (e.scale && e.scale !==1)) {
+                    return;
+                }
+                var touch = touches[0];
+                this.startX = touch.pageX;
+                this.startY = touch.pageY;
+                container.addEventListener('touchmove', touchObj, false);
+                container.addEventListener('touchend', touchObj, false);
+                //container.addEventListener('mouseover', touchObj, false);
+                //e.target.addEventListener('touchmove', touchObj, false);
+                //e.target.addEventListener('touchend', touchObj, false);
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            move: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            end: function(e) {
+                var touches = e.changedTouches;
+                var touch = touches[0];
+                var endX = touch.pageX;
+                var endY = touch.pageY;
+                var deltaX = endX - this.startX;
+                var deltaY = endY - this.startY;
+                //var step = Math.round(Math.abs(deltaX) / itemSize);
+                if(deltaX < 0) {
+                    console.log("pre");
+                }else if(deltaX > 0){
+                    console.log("next");
+                }
+                container.removeEventListener('touchmove', touchObj, false);
+                container.removeEventListener('touchend', touchObj, false);
+                //container.removeEventListener('mouseover', touchObj, false);
+                //e.target.removeEventListener('touchmove', touchObj, false);
+                //e.target.removeEventListener('touchend', touchObj, false);
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            over: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        };
+
+</script>
+</body>
+</html>
