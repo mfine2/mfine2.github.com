@@ -133,12 +133,7 @@ var indexElement = -1, eleSlideIn = null;
         return false;
     }).trigger("click");
     
-var container = $("#box")[0];
-			    if(container.addEventListener && "ontouchstart" in window) {
-			    	alert("bind");
-                    container.addEventListener('touchstart', touchObj, false);
-                }
-alert("go");
+
         var touchObj = {
             startX: 0,
             startY: 0,
@@ -160,6 +155,7 @@ alert("go");
                 this.startY = touch.pageY;
                 container.addEventListener('touchmove', touchObj, false);
                 container.addEventListener('touchend', touchObj, false);
+                alert("start");
                 //container.addEventListener('mouseover', touchObj, false);
                 //e.target.addEventListener('touchmove', touchObj, false);
                 //e.target.addEventListener('touchend', touchObj, false);
@@ -171,6 +167,7 @@ alert("go");
                 e.stopPropagation();
             },
             end: function(e) {
+            	 alert("end");
                 var touches = e.changedTouches;
                 var touch = touches[0];
                 var endX = touch.pageX;
@@ -198,6 +195,11 @@ alert("go");
                 e.stopPropagation();
             }
         };
+var container = $("#box")[0];
+			    if(container.addEventListener && "ontouchstart" in window) {
+			    	alert("bind");
+                    container.addEventListener('touchstart', touchObj, false);
+                }
 
 </script>
 </body>
