@@ -155,7 +155,7 @@ var indexElement = -1, eleSlideIn = null;
                 this.startY = touch.pageY;
                 container.addEventListener('touchmove', touchObj, false);
                 container.addEventListener('touchend', touchObj, false);
-                alert("start");
+                
                 //container.addEventListener('mouseover', touchObj, false);
                 //e.target.addEventListener('touchmove', touchObj, false);
                 //e.target.addEventListener('touchend', touchObj, false);
@@ -197,7 +197,6 @@ var indexElement = -1, eleSlideIn = null;
         };
 var container = $("#box")[0];
 			    if(container.addEventListener && "ontouchstart" in window) {
-			    	alert("bind");
                     container.addEventListener('touchstart', touchObj, false);
                 }
 
