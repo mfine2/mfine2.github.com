@@ -176,8 +176,10 @@ var container = $("#box")[0];
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 //var step = Math.round(Math.abs(deltaX) / itemSize);
+                alert(deltaX);
+                return;
                 if(deltaX < 0) {
-                    console.log("pre");
+                    alert(deltaX);
                 }else if(deltaX > 0){
                     console.log("next");
                 }
