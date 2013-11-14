@@ -167,7 +167,6 @@ var indexElement = -1, eleSlideIn = null;
                 e.stopPropagation();
             },
             end: function(e) {
-            	 alert("end");
                 var touches = e.changedTouches;
                 var touch = touches[0];
                 var endX = touch.pageX;
@@ -175,13 +174,15 @@ var indexElement = -1, eleSlideIn = null;
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 //var step = Math.round(Math.abs(deltaX) / itemSize);
-                alert(deltaX);
-                return;
+                
                 if(deltaX < 0) {
-                    alert(deltaX);
+                   
                 }else if(deltaX > 0){
-                    console.log("next");
+                   
                 }
+                
+                $("#box").click();
+                
                 container.removeEventListener('touchmove', touchObj, false);
                 container.removeEventListener('touchend', touchObj, false);
                 //container.removeEventListener('mouseover', touchObj, false);
