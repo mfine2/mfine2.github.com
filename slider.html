@@ -149,16 +149,16 @@
         elArr: [],
         paginationArr: [],
         el: null,
+        timer: null,
         _touchObj: {
             slider: null,
             startX: 0,
             startY: 0,
             handleEvent: function(e) {
                 switch (e.type) {
-                  case "touchstart": this.start(e); break;
-                  case "touchmove": this.move(e); break;
-                  case "touchend": this.end(e); break;
-                  case "click": this.click(e); break;
+                    case "touchstart": this.start(e); break;
+                    case "touchmove": this.move(e); break;
+                    case "touchend": this.end(e); break;
                 }
             },
             start: function(e) {
@@ -173,6 +173,7 @@
                 container.addEventListener("touchend", this, false);
                 e.preventDefault();
                 e.stopPropagation();
+                clearTimeout(this.slider.timer);
             },
             move: function(e) {
                 e.preventDefault();
@@ -196,11 +197,12 @@
                 }
                 container.removeEventListener("touchmove", this, false);
                 container.removeEventListener("touchend", this, false);
+                this.slider.startTimer();
                 e.preventDefault();
                 e.stopPropagation();
             },
         },
-        init: function(container, pagination, handlers) {
+        init: function(container, pagination, interval) {
             if(!container) {
                 throw new Error("parameter container can not null");
                 return;
@@ -212,10 +214,26 @@
             }
             this.el = this.elArr[0];
             this.index = 0;
+            this.interval = interval;
+            this.startTimer();
             if(container.addEventListener && "ontouchstart" in window) {
                 container.addEventListener("touchstart", this._touchObj, false);
             }
             this._touchObj.slider = this;
+        },
+        startTimer: function() {
+            if(!this.interval) {
+                return;
+            }
+            if(this.timer) {
+                clearTimeout(this.timer);
+            }
+            console.log(this.timer);
+            var that = this;
+            this.timer = setTimeout(function() {
+                that.showNext();
+                that.startTimer();
+            }, this.interval);
         },
         showPrevious: function() {
             if(this.index > 0) {
@@ -230,7 +248,8 @@
             }
         },
         showNext: function() {
-            if(this.index < (this.elArr.length - 1)) {
+            var len = this.elArr.length - 1;
+            if(this.index < len) {
                 var lastEl = this.el;
                 this.el = this.elArr[++this.index];
                 this.removeClass(lastEl, "on slideInFromLeft slideInFromRight");
