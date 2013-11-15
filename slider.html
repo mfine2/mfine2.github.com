@@ -162,16 +162,14 @@
             },
             start: function(e) {
                 var touches = e.changedTouches;
-                alert(touches);
                 if(touches.length > 1 || (e.scale && e.scale !==1)) {
                     return;
                 }
-                alert(2);
                 var touch = touches[0];
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
-                container.addEventListener("touchmove", _touchObj, false);
-                container.addEventListener("touchend", _touchObj, false);
+                container.addEventListener("touchmove", this, false);
+                container.addEventListener("touchend", this, false);
                 e.preventDefault();
                 e.stopPropagation();
             },
@@ -187,7 +185,7 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
-                alert(touches);
+                alert(3);
                 if(Math.abs(deltaY) < (width / 4)) {
                     return;
                 }
@@ -196,8 +194,8 @@
                 }else if(deltaX > 0){
                     this.showPrevious();
                 }
-                container.removeEventListener("touchmove", _touchObj, false);
-                container.removeEventListener("touchend", _touchObj, false);
+                container.removeEventListener("touchmove", this, false);
+                container.removeEventListener("touchend", this, false);
                 e.preventDefault();
                 e.stopPropagation();
             },
