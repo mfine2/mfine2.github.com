@@ -162,10 +162,11 @@
             },
             start: function(e) {
                 var touches = e.changedTouches;
+                alert(touches);
                 if(touches.length > 1 || (e.scale && e.scale !==1)) {
-                    alert(touches);
                     return;
                 }
+                alert(2);
                 var touch = touches[0];
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
@@ -186,6 +187,7 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
+                alert(touches);
                 if(Math.abs(deltaY) < (width / 4)) {
                     return;
                 }
@@ -214,7 +216,6 @@
             this.index = 0;
             if(container.addEventListener && "ontouchstart" in window) {
                 container.addEventListener("touchstart", this._touchObj, false);
-                alert("touchstart");
             }
         },
         showPrevious: function() {
