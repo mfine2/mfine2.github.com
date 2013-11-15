@@ -304,7 +304,7 @@
 
     var container = document.getElementById("slideContainer");
     var pagination = document.getElementById("slidePagination");
-    slider.init(container, pagination);
+    slider.init(container, pagination, 5000);
     var clickFn = function(e) {
         var width = container.offsetWidth;
         if(e.pageX > width/2){
