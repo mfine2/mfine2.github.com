@@ -150,6 +150,7 @@
         paginationArr: [],
         el: null,
         _touchObj: {
+            slider: null,
             startX: 0,
             startY: 0,
             handleEvent: function(e) {
@@ -185,15 +186,13 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
-                alert(width);
                 if(Math.abs(deltaX) < (width / 4)) {
                     return;
                 }
-                alert(deltaX);
                 if(deltaX < 0) {
-                    this.showNext();
+                    this.slider.showNext();
                 }else if(deltaX > 0){
-                    this.showPrevious();
+                    this.slider.howPrevious();
                 }
                 container.removeEventListener("touchmove", this, false);
                 container.removeEventListener("touchend", this, false);
@@ -216,6 +215,7 @@
             if(container.addEventListener && "ontouchstart" in window) {
                 container.addEventListener("touchstart", this._touchObj, false);
             }
+            this._touchObj.slider = this;
         },
         showPrevious: function() {
             if(this.index > 0) {
