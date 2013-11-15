@@ -2,147 +2,162 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>css3 slider with touch</title>
     <style type="text/css">
-.box {
-  width: 100%;
-height: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: hidden;
-}
-.list, .index {
-    position: absolute;
-}
-.index {
-    right: 0px;
-    bottom: 0px;
-}
-.index i {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin-right: 5px;
-    border-radius: 12px;
-    background-color: #666;
-    background-color: rgba(0,0,0,.6);
-}
-.index .on {
-    background-color: #cd0000;
-    background-color: rgba(255,0,0,.75);
-}
-@-webkit-keyframes slideinfromright {
-    from { -webkit-transform: translateX(100%); }
-    to { -webkit-transform: translateX(0); }
-}
-@-moz-keyframes slideinfromright {
-    from { -moz-transform: translateX(100%); }
-    to { -moz-transform: translateX(0); }
-}
-@-webkit-keyframes slideinfromleft {
-    from { -webkit-transform: translateX(-100%); }
-    to { -webkit-transform: translateX(0); }
-}
-@-moz-keyframes slideinfromleft {
-    from { -moz-transform: translateX(-100%); }
-    to { -moz-transform: translateX(0); }
-}
-@-webkit-keyframes slideouttoleft {
-    from { -webkit-transform: translateX(0); }
-    to { -webkit-transform: translateX(-100%); }
-}
-@-moz-keyframes slideouttoleft {
-    from { -moz-transform: translateX(0); }
-    to { -moz-transform: translateX(-100%); }
-}
-@-webkit-keyframes slideouttoright {
-    from { -webkit-transform: translateX(0); }
-    to { -webkit-transform: translateX(100%); }
-}
-@-moz-keyframes slideouttoright {
-    from { -moz-transform: translateX(0); }
-    to { -moz-transform: translateX(100%); }
-}
+        @-webkit-keyframes slideInFromRight {
+            from { -webkit-transform: translateX(100%); }
+            to { -webkit-transform: translateX(0); }
+        }
+        @-moz-keyframes slideInFromRight {
+            from { -moz-transform: translateX(100%); }
+            to { -moz-transform: translateX(0); }
+        }
+        @keyframes slideInFromRight {
+            from { -moz-transform: translateX(100%); }
+            to { -moz-transform: translateX(0); }
+        }
 
-.in {
-	-webkit-animation-timing-function: ease-out;
-	-webkit-animation-duration: 350ms;
-	-moz-animation-timing-function: ease-out;
-	-moz-animation-duration: 350ms;
-}
-.out {
-	-webkit-animation-timing-function: ease-in;
-	-webkit-animation-duration: 225ms;
-	-moz-animation-timing-function: ease-in;
-	-moz-animation-duration: 225ms;
-}
-.slide.out, .slide.in {
-	-webkit-animation-timing-function: ease-out;
-	-webkit-animation-duration: 350ms;
-	-moz-animation-timing-function: ease-out;
-	-moz-animation-duration: 350ms;
-}
-.slide.out {
-	-webkit-transform: translateX(-100%);
-	-webkit-animation-name: slideouttoleft;
-	-moz-transform: translateX(-100%);
-	-moz-animation-name: slideouttoleft;
-}
-.slide.in {
-	-webkit-transform: translateX(0);
-	-webkit-animation-name: slideinfromright;
-	-moz-transform: translateX(0);
-	-moz-animation-name: slideinfromright;
-}
+        @-webkit-keyframes slideInFromLeft {
+            from { -webkit-transform: translateX(-100%); }
+            to { -webkit-transform: translateX(0); }
+        }
+        @-moz-keyframes slideInFromLeft {
+            from { -moz-transform: translateX(-100%); }
+            to { -moz-transform: translateX(0); }
+        }
+        @keyframes slideInFromLeft {
+            from { -moz-transform: translateX(-100%); }
+            to { -moz-transform: translateX(0); }
+        }
+
+        @-webkit-keyframes slideOutToLeft {
+            from { -webkit-transform: translateX(0); }
+            to { -webkit-transform: translateX(-100%); }
+        }
+        @-moz-keyframes slideOutToLeft {
+            from { -moz-transform: translateX(0); }
+            to { -moz-transform: translateX(-100%); }
+        }
+        @keyframes slideOutToLeft {
+            from { -moz-transform: translateX(0); }
+            to { -moz-transform: translateX(-100%); }
+        }
+
+        @-webkit-keyframes slideOutToRight {
+            from { -webkit-transform: translateX(0); }
+            to { -webkit-transform: translateX(100%); }
+        }
+        @-moz-keyframes slideOutToRight {
+            from { -moz-transform: translateX(0); }
+            to { -moz-transform: translateX(100%); }
+        }
+        @keyframes slideOutToRight {
+            from { -moz-transform: translateX(0); }
+            to { -moz-transform: translateX(100%); }
+        }
+
+        .slideInFromLeft, .slideInFromRight, .slideOutToLeft, .slideOutToRight {
+            -webkit-animation-timing-function: ease-out;
+            -webkit-animation-duration: 350ms;
+            -moz-animation-timing-function: ease-out;
+            -moz-animation-duration: 350ms;
+            animation-timing-function: ease-out;
+            animation-duration: 350ms;
+        }
+        .slideInFromLeft {
+            -webkit-animation-name: slideInFromLeft;
+            -moz-animation-name: slideInFromLeft;
+            animation-name: slideInFromLeft;
+        }
+        .slideInFromRight {
+            -webkit-animation-name: slideInFromRight;
+            -moz-animation-name: slideInFromRight;
+            animation-name: slideInFromRight;
+        }
+        .slideOutToLeft {
+            -webkit-animation-name: slideOutToLeft;
+            -moz-animation-name: slideOutToLeft;
+            animation-name: slideOutToLeft;
+        }
+        .slideOutToRight {
+            -webkit-animation-name: slideOutToRight;
+            -moz-animation-name: slideOutToRight;
+            animation-name: slideOutToRight;
+        }
+        .slider {
+            position: relative;
+        }
+        .slideContainer {
+            width: 100%;
+            height: 650px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .slideItem {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .slideItem.off {
+            -webkit-transform: translateX(-100%);
+            -moz-transform: translateX(-100%);
+            transform: translateX(-100%);
+        }
+        .slideItem.on {
+            -webkit-transform: translateX(0);
+            -moz-transform: translateX(0);
+            transform: translateX(0);
+        }
+        .slidePagination {
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .slidePagination b {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            background-color: rgba(0,0,0,.7);
+        }
+        .slidePagination b.on {
+            background-color: rgba(255,255,255,.7);
+        }
     </style>
 </head>
 <body>
-<div id="box" class="box">
-    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps1.jpg" /></a>
-    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps2.jpg" /></a>
-    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps3.jpg" /></a>
-    <a href="/" class="list slide out"><img src="http://image.zhangxinxu.com/image/study/p/s500/ps4.jpg" /></a>
-    <div id="index" class="index"></div>
+
+<div class="slider">
+    <div id="slideContainer" class="slideContainer">
+        <a href="javascript:;" class="slideItem on "><img src="./images/img001.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img src="./images/img002.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img src="./images/img003.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img src="./images/img004.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img src="./images/img005.jpg" /></a>
+    </div>
+    <div id="slidePagination" class="slidePagination"><b class="on"></b><b></b><b></b><b></b><b></b></div>
 </div>
-<script type="text/javascript" src="http://img3.douban.com/js/packed_jquery.min9556435062.js"></script>
+
 <script type="text/javascript">
-var eleIndex = $("#index"), eleList = $("#box .list");
-var funIndex = function() {
-    var htmlIndex = '';
-    eleList.each(function() {
-        if ($(this).hasClass("out")) {
-            htmlIndex += '<i></i>';    
-        } else {
-            htmlIndex += '<i class="on"></i>';
-        }
-    });
-    eleIndex.html(htmlIndex);
-};
-
-var indexElement = -1, eleSlideIn = null;
-    $("#box").bind("click", function() {
-        indexElement++;
-        if (indexElement >= eleList.length) {
-            indexElement = 0;
-        }
-        eleSlideIn && eleSlideIn.removeClass("in").addClass("out");
-        eleSlideIn = $(eleList.get(indexElement)).removeClass("out").addClass("in");
-        funIndex();
-        return false;
-    }).trigger("click");
-    
-
-        var touchObj = {
+    //InFrom, OutTo
+    //keyframes 动画中的translateX 只是从from到to执行一个动画，最终位置还是有控制它的class的transform决定，但同时增加keyframes的类和控制transform的类，依然会先执行动画；两者都是相对于元素原来的位置进行偏移
+    var slider = {
+        index: 0,
+        elArr: [],
+        paginationArr: [],
+        el: null,
+        _touchObj: {
             startX: 0,
             startY: 0,
             handleEvent: function(e) {
                 switch (e.type) {
-                  case 'touchstart': this.start(e); break;
-                  case 'touchmove': this.move(e); break;
-                  case 'touchend': this.end(e); break;
-                  case 'mouseover': this.over(e); break;
+                  case "touchstart": this.start(e); break;
+                  case "touchmove": this.move(e); break;
+                  case "touchend": this.end(e); break;
+                  case "click": this.click(e); break;
                 }
             },
             start: function(e) {
@@ -153,12 +168,8 @@ var indexElement = -1, eleSlideIn = null;
                 var touch = touches[0];
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
-                container.addEventListener('touchmove', touchObj, false);
-                container.addEventListener('touchend', touchObj, false);
-                
-                //container.addEventListener('mouseover', touchObj, false);
-                //e.target.addEventListener('touchmove', touchObj, false);
-                //e.target.addEventListener('touchend', touchObj, false);
+                container.addEventListener("touchmove", _touchObj, false);
+                container.addEventListener("touchend", _touchObj, false);
                 e.preventDefault();
                 e.stopPropagation();
             },
@@ -173,34 +184,117 @@ var indexElement = -1, eleSlideIn = null;
                 var endY = touch.pageY;
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
-                //var step = Math.round(Math.abs(deltaX) / itemSize);
-                
-                if(deltaX < 0) {
-                   
-                }else if(deltaX > 0){
-                   
+                var width = e.target.offsetWidth;
+                if(Math.abs(deltaY) < (width / 2)) {
+                    return;
                 }
-                
-                $("#box").click();
-                
-                container.removeEventListener('touchmove', touchObj, false);
-                container.removeEventListener('touchend', touchObj, false);
-                //container.removeEventListener('mouseover', touchObj, false);
-                //e.target.removeEventListener('touchmove', touchObj, false);
-                //e.target.removeEventListener('touchend', touchObj, false);
+                if(deltaX < 0) {
+                    this.showNext();
+                }else if(deltaX > 0){
+                    this.showPrevious();
+                }
+                container.removeEventListener("touchmove", _touchObj, false);
+                container.removeEventListener("touchend", _touchObj, false);
                 e.preventDefault();
                 e.stopPropagation();
             },
-            over: function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+        },
+        init: function(container, pagination, handlers) {
+            if(!container) {
+                throw new Error("parameter container can not null");
+                return;
             }
-        };
-var container = $("#box")[0];
-			    if(container.addEventListener && "ontouchstart" in window) {
-                    container.addEventListener('touchstart', touchObj, false);
-                }
+            this.container = container;
+            this.elArr = container.children;
+            if(pagination) {
+                this.paginationArr = pagination.children;
+            }
+            this.el = this.elArr[0];
+            this.index = 0;
+            if(container.addEventListener && "ontouchstart" in window) {
+                container.addEventListener("touchstart", this._touchObj, false);
+            }
+        },
+        showPrevious: function() {
+            if(this.index > 0) {
+                var lastEl = this.el;
+                this.el = this.elArr[--this.index];
+                this.removeClass(lastEl, "on slideInFromLeft slideInFromRight");
+                this.addClass(lastEl, "off slideOutToRight");
+                this.removeClass(this.el, "off slideOutToLeft slideOutToRight");
+                this.addClass(this.el, "on slideInFromLeft");
 
+                this.showPagination();
+            }
+        },
+        showNext: function() {
+            if(this.index < (this.elArr.length - 1)) {
+                var lastEl = this.el;
+                this.el = this.elArr[++this.index];
+                this.removeClass(lastEl, "on slideInFromLeft slideInFromRight");
+                this.addClass(lastEl, "off slideOutToLeft");
+                this.removeClass(this.el, "off slideOutToRight slideOutToRight");
+                this.addClass(this.el, "on slideInFromRight");
+
+                this.showPagination();
+            }
+        },
+        showPagination: function(){
+            var el = this.paginationArr[this.index];
+            if(el) {
+                var preEl = el.previousElementSibling;
+                preEl && this.removeClass(preEl, "on");
+                var nextEl = el.nextElementSibling;
+                nextEl && this.removeClass(nextEl, "on");
+                this.addClass(el, "on");
+            }
+        },
+        addClass: function(el, className) {
+            if(!el) {
+                return;
+            }
+            var name = el.getAttribute("class");
+            var result = name;
+            if(name) {
+                result += " " + className;
+            } else {
+                result = className;
+            }
+            el.setAttribute("class", result);
+        },
+        removeClass: function(el, className){
+            if(!el) {
+                return;
+            }
+            var nameArr = className.split(" ");
+            var result = el.getAttribute("class") || "";
+            for(var i = 0, len = nameArr.length; i < len; i++) {
+                var name = nameArr[i];
+                result = result.replace(name, "");
+            }
+            result = result.replace(/^\s+|\s+$/g, "");
+            el.setAttribute("class", result);
+        },
+        setTranslateX: function(el, val) {
+            el.style.webkitTransform = "translateX("+ val +")";
+            el.style.MozTransform = "translateX("+ val +")";
+        }
+    };
+
+    var container = document.getElementById("slideContainer");
+    var pagination = document.getElementById("slidePagination");
+    slider.init(container, pagination);
+    var clickFn = function(e) {
+        var width = container.offsetWidth
+        if(e.pageX > width/2){
+            slider.showNext();
+        }else{
+            slider.showPrevious();
+        }
+        e.preventDefault();
+        e.stopPropagation();
+    };
+    container.addEventListener("click", clickFn, false);
 </script>
 </body>
 </html>
