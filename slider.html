@@ -163,6 +163,7 @@
             start: function(e) {
                 var touches = e.changedTouches;
                 if(touches.length > 1 || (e.scale && e.scale !==1)) {
+                    alert(touches);
                     return;
                 }
                 var touch = touches[0];
@@ -185,7 +186,6 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
-		alert(width);
                 if(Math.abs(deltaY) < (width / 4)) {
                     return;
                 }
@@ -214,6 +214,7 @@
             this.index = 0;
             if(container.addEventListener && "ontouchstart" in window) {
                 container.addEventListener("touchstart", this._touchObj, false);
+                alert("touchstart");
             }
         },
         showPrevious: function() {
@@ -286,7 +287,6 @@
     var pagination = document.getElementById("slidePagination");
     slider.init(container, pagination);
     var clickFn = function(e) {
-    	alert("hi");
         var width = container.offsetWidth
         if(e.pageX > width/2){
             slider.showNext();
