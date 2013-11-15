@@ -90,7 +90,7 @@
         }
         .slideContainer {
             width: 100%;
-            height: 650px;
+            height: 350px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
@@ -184,8 +184,9 @@
                 var endY = touch.pageY;
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
-                var width = e.target.offsetWidth;
-                if(Math.abs(deltaY) < (width / 2)) {
+                var width = document.body.clientWidth;
+		alert(width);
+                if(Math.abs(deltaY) < (width / 4)) {
                     return;
                 }
                 if(deltaX < 0) {
@@ -285,6 +286,7 @@
     var pagination = document.getElementById("slidePagination");
     slider.init(container, pagination);
     var clickFn = function(e) {
+    	alert("hi");
         var width = container.offsetWidth
         if(e.pageX > width/2){
             slider.showNext();
