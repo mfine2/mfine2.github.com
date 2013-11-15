@@ -185,9 +185,11 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
-                if(Math.abs(deltaY) < (width / 4)) {
+                alert(width);
+                if(Math.abs(deltaX) < (width / 4)) {
                     return;
                 }
+                alert(deltaX);
                 if(deltaX < 0) {
                     this.showNext();
                 }else if(deltaX > 0){
