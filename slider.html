@@ -132,11 +132,11 @@
 
 <div class="slider">
     <div id="slideContainer" class="slideContainer">
-        <a href="javascript:;" class="slideItem on "><img src="./images/img001.jpg" /></a>
-        <a href="javascript:;" class="slideItem off"><img src="./images/img002.jpg" /></a>
-        <a href="javascript:;" class="slideItem off"><img src="./images/img003.jpg" /></a>
-        <a href="javascript:;" class="slideItem off"><img src="./images/img004.jpg" /></a>
-        <a href="javascript:;" class="slideItem off"><img src="./images/img005.jpg" /></a>
+        <a href="javascript:;" class="slideItem on "><img width="100%" src="./images/img001.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img width="100%" src="./images/img002.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img width="100%" src="./images/img003.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img width="100%" src="./images/img004.jpg" /></a>
+        <a href="javascript:;" class="slideItem off"><img width="100%" src="./images/img005.jpg" /></a>
     </div>
     <div id="slidePagination" class="slidePagination"><b class="on"></b><b></b><b></b><b></b><b></b></div>
 </div>
@@ -185,7 +185,6 @@
                 var deltaX = endX - this.startX;
                 var deltaY = endY - this.startY;
                 var width = document.body.clientWidth;
-                alert(3);
                 if(Math.abs(deltaY) < (width / 4)) {
                     return;
                 }
