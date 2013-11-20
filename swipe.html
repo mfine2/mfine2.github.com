@@ -6,22 +6,20 @@
     <title>css3 swipe with touch</title>
     <style type="text/css">
         .swipe {
-            max-width: 350px;
-            max-height: 300px;
+            max-width: 100%;
+			height: 200px;
             border: 1px solid #e4e4e4;
             margin: 0 auto;
             overflow: hidden;
             position: relative;
         }
         .swipeContainer {
+			overflow: hidden;
         }
         .swipeItem {
             float: left;
-            margin-left: 5px;
-            margin-right: 5px;
         }
         .swipeItem img {
-            max-width: 300px;
         }
         .swipePage {
             position: absolute;
@@ -132,31 +130,43 @@
             }
         },
 
-        init: function(viewEl, wrapEl, duration, pageEl) {
-            if(!viewEl || !wrapEl) {
+        init: function(options) {
+			if(!options) {
+                throw new Error("parameter can not be null");
+                return;
+			}
+            if(!options.viewEl || !options.wrapEl) {
                 throw new Error("parameter viewEl and wrapEl can not be null");
                 return;
             }
-            _this.viewEl = viewEl;
-            _this.wrapEl = wrapEl;
+            _this.viewEl = options.viewEl;
+            _this.wrapEl = options.wrapEl;
             _this.itemEls = _this.wrapEl.children;
             //itemMargin: 10,//left + right,todo calcute
-            _this.itemWidth = _this.itemEls[0].offsetWidth + 10;//todo 元素宽度百分比
+            //_this.itemWidth = _this.itemEls[0].offsetWidth + options.itemMarginLeft + options.itemMarginRight;//todo 元素宽度百分比
+			var viewWidth = _this.viewEl.clientWidth;//no margin
+			var itemWidth = viewWidth - options.viewPaddingLeft - options.viewPaddingRight;
+			var pureWidth = itemWidth - options.itemMarginLeft - options.itemMarginRight;
+			_this.itemWidth = itemWidth;
+			//console.log(viewWidth);
+			//console.log(itemWidth);
+			_this._setImgs(pureWidth, options.itemMarginLeft, options.itemMarginRight);
 
             _this.wrapEl.style.width = (_this.itemEls.length * _this.itemWidth) + "px";
             var viewWidth = _this.viewEl.offsetWidth - 2;//todo remove border temp
             var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
-            _this.translateX(initOffsetX);
+			//todo why no transition then translateX then transition is have transition?
+            //_this.translateX(initOffsetX);
 
-            if(duration === undefined) {
+            if(options.duration === undefined) {
                 _this.duration = 0;
             } else {
-                _this.duration = duration;
+                _this.duration = options.duration;
             }
-            _this.setTransition();
 
             _this.index = 0;
             _this._setItemPos(initOffsetX);
+            _this.setTransition();
 
             if(pageEl) {
                 _this.pageArr = pageEl.children;
@@ -215,7 +225,7 @@
         translateX: function(x, el) {
             el = el || _this.wrapEl;
             el.style.webkitTransform = "translateX(" + x + "px)";
-            el.style.transform = "translateX(" + x + "px)";
+            //el.style.transform = "translateX(" + x + "px)";
         },
         setTransition: function(duration, el) {
             if(duration === undefined) {
@@ -223,7 +233,7 @@
             }
             el = el || _this.wrapEl;
             el.style.webkitTransition = "-webkit-transform " + duration + "s ease-in-out";
-            el.style.transition = "transform " + duration + "s ease-in-out";
+            //el.style.transition = "transform " + duration + "s ease-in-out";
         },
         _addClass: function(el, className) {
             if(!el) {
@@ -256,14 +266,24 @@
                 var x = offsetX - i * _this.itemWidth;
                 _this.posArr.push(x);
             }
-        }
+        },
+		_setImgs: function(width, marginLeft, marginRight) {
+			var imgs = _this.wrapEl.getElementsByTagName("img");
+			for(var i = 0, len = imgs.length; i < len; i++) {
+				var img = imgs[i];
+				img.style.maxWidth = width + "px";
+				img.style.marginLeft = marginLeft + "px";
+				img.style.marginRight = marginRight + "px";
+			}
+		}
     };
 
     var viewEl = document.getElementById("swipe");
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init(viewEl, wrapEl, 0.3, pageEl);
+		Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 20, viewPaddingRight: 20, itemMarginLeft: 5, itemMarginRight: 5});
+		//todo img old size may lead to scrollbar appear
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
