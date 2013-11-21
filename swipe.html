@@ -8,7 +8,6 @@
         .swipe {
             max-width: 610px;
             max-height: 300px;
-            border: 1px solid #e4e4e4;
             margin: 0 auto;
             overflow: hidden;
             position: relative;
@@ -163,7 +162,7 @@
             }
             _this.touchObj.swipe = _this;
 
-            alert(_this.swipe.viewEl.offsetWidth);
+            alert(_this.viewEl.offsetWidth);
         },
         showPrevious: function() {
             if(_this.index > 0) {
