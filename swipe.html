@@ -15,12 +15,6 @@
         }
         .swipeContainer {
         }
-        .swipeTransition {
-            -webkit-transition: -webkit-transform 0.8s ease-in-out;
-            -moz-transition: -moz-transform 0.8s ease-in-out;
-            -o-transition: -o-transform 0.8s ease-in-out;
-            transition: transform 0.8s ease-in-out;
-        }
         .swipeItem {
             float: left;
             margin-left: 5px;
@@ -49,7 +43,7 @@
 <body>
 
 <div class="swipe" id="swipe">
-    <div id="swipeContainer" class="swipeContainer swipeTransition">
+    <div id="swipeContainer" class="swipeContainer">
         <a href="javascript:;" class="swipeItem"><img src="./images/img001.jpg" /></a>
         <a href="javascript:;" class="swipeItem"><img src="./images/img002.jpg" /></a>
         <a href="javascript:;" class="swipeItem"><img src="./images/img003.jpg" /></a>
@@ -66,7 +60,7 @@
         wrapEl: null,
         itemEls: [],
         itemWidth: 0,
-        transitionClass: "",
+        duration: 0,
 
         index: 0,
         posArr: [],
@@ -92,7 +86,7 @@
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
 
-                this.swipe.removeTransition();
+                this.swipe.setTransition(0.1);
 
                 this.swipe.viewEl.addEventListener("touchmove", this, false);
                 this.swipe.viewEl.addEventListener("touchend", this, false);
@@ -119,9 +113,8 @@
 
                     if(Math.abs(deltaX) < (width / 2)) {
                         this.swipe.showSelf();
-                        //this.swipe.addTransition();
                     } else {
-                        this.swipe.addTransition();
+                        this.swipe.setTransition();
                         if(deltaX < 0) {
                             this.swipe.showNext();
                         }else if(deltaX > 0){
@@ -135,7 +128,7 @@
             }
         },
 
-        init: function(viewEl, wrapEl, transitionClass, pageEl) {
+        init: function(viewEl, wrapEl, duration, pageEl) {
             if(!viewEl || !wrapEl) {
                 throw new Error("parameter viewEl and wrapEl can not be null");
                 return;
@@ -151,7 +144,12 @@
             var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
             _this.translateX(initOffsetX);
 
-            _this.transitionClass = transitionClass || "swipeTransition";
+            if(duration === undefined) {
+                _this.duration = 0;
+            } else {
+                _this.duration = duration;
+            }
+            _this.setTransition();
 
             _this.index = 0;
             _this._setItemPos(initOffsetX);
@@ -213,11 +211,12 @@
             el = el || _this.wrapEl;
             el.style.webkitTransform = "translateX(" + x + "px)";
         },
-        addTransition: function() {
-            _this._addClass(_this.wrapEl, _this.transitionClass);
-        },
-        removeTransition: function(){
-            _this._removeClass(_this.wrapEl, _this.transitionClass);
+        setTransition: function(duration, el) {
+            if(duration === undefined) {
+                duration = _this.duration;
+            }
+            el = el || _this.wrapEl;
+            el.style.webkitTransition = "-webkit-transform " + duration + "s ease-in-out";
         },
         _addClass: function(el, className) {
             if(!el) {
@@ -257,7 +256,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init(viewEl, wrapEl, "swipeTransition", pageEl);
+        Swipe.init(viewEl, wrapEl, 0.5, pageEl);
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
