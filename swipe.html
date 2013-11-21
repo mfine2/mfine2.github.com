@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>css3 swipe with touch</title>
+    <style type="text/css">
+        .swipe {
+            max-width: 610px;
+            max-height: 300px;
+            border: 1px solid #e4e4e4;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .swipeContainer {
+            -webkit-transition: -webkit-transform 1s ease-in-out;
+            -moz-transition: -moz-transform 1s ease-in-out;
+            -o-transition: -o-transform 1s ease-in-out;
+            transition: transform 1s ease-in-out;
+        }
+        .swipeItem {
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .swipeItem img {
+            max-width: 600px;
+        }
+        .swipePage {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        .swipePage b {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+            background-color: rgba(0,0,0,.7);
+        }
+        .swipePage b.on {
+            background-color: rgba(255,255,255,.7);
+        }
+    </style>
+</head>
+<body>
+
+<div class="swipe" id="swipe">
+    <div id="swipeContainer" class="swipeContainer">
+        <a href="javascript:;" class="swipeItem"><img src="./images/img001.jpg" /></a>
+        <a href="javascript:;" class="swipeItem"><img src="./images/img002.jpg" /></a>
+        <a href="javascript:;" class="swipeItem"><img src="./images/img003.jpg" /></a>
+        <a href="javascript:;" class="swipeItem"><img src="./images/img004.jpg" /></a>
+        <a href="javascript:;" class="swipeItem"><img src="./images/img005.jpg" /></a>
+    </div>
+    <div id="swipePage" class="swipePage"><b class="on"></b><b></b><b></b><b></b><b></b></div>
+</div>
+
+<script type="text/javascript">
+
+    var Swipe = _this = {
+        viewEl: null,
+        wrapEl: null,
+        itemEls: [],
+        itemWidth: 0,
+
+        index: 0,
+        posArr: [],
+        pageArr: [],
+
+        touchObj: {
+            swipe: null,
+            startX: 0,
+            startY: 0,
+            handleEvent: function(e) {
+                switch (e.type) {
+                    case "touchstart": this.start(e); break;
+                    case "touchmove": this.move(e); break;
+                    case "touchend": this.end(e); break;
+                }
+            },
+            start: function(e) {
+                var touches = e.changedTouches;
+                if(touches.length > 1 || (e.scale && e.scale !==1)) {
+                    return;
+                }
+                var touch = touches[0];
+                this.startX = touch.pageX;
+                this.startY = touch.pageY;
+                this.swipe.viewEl.addEventListener("touchmove", this, false);
+                this.swipe.viewEl.addEventListener("touchend", this, false);
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            move: function(e) {
+                var touch = e.changedTouches[0];
+                var deltaX = touch.pageX - this.startX;
+
+                this.swipe.translateOffsetX(deltaX);
+
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            end: function(e) {
+                    var touches = e.changedTouches;
+                    var touch = touches[0];
+                    var endX = touch.pageX;
+                    var endY = touch.pageY;
+                    var deltaX = endX - this.startX;
+                    var deltaY = endY - this.startY;
+                    var width = this.swipe.viewEl.offsetWidth;
+                    if(Math.abs(deltaX) < (width / 4)) {
+                        this.swipe.showSelf();
+                        return;
+                    }
+                    if(deltaX < 0) {
+                        this.swipe.showNext();
+                    }else if(deltaX > 0){
+                        this.swipe.showPrevious();
+                    }
+                    this.swipe.viewEl.removeEventListener("touchmove", this, false);
+                    this.swipe.viewEl.removeEventListener("touchend", this, false);
+                    e.preventDefault();
+                    e.stopPropagation();
+            }
+        },
+
+        init: function(viewEl, wrapEl, pageEl) {
+            if(!viewEl || !wrapEl) {
+                throw new Error("parameter viewEl and wrapEl can not be null");
+                return;
+            }
+            _this.viewEl = viewEl;
+            _this.wrapEl = wrapEl;
+            _this.itemEls = _this.wrapEl.children;
+            //itemMargin: 10,//left + right,todo calcute
+            _this.itemWidth = _this.itemEls[0].clientWidth + 10;
+
+            _this.wrapEl.style.width = (_this.itemEls.length * _this.itemWidth) + "px";
+            var viewWidth = _this.viewEl.offsetWidth - 2;//todo remove border temp
+            var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
+            _this.translateX(initOffsetX);
+
+            _this.index = 0;
+            _this._setItemPos(initOffsetX);
+
+            if(pageEl) {
+                _this.pageArr = pageEl.children;
+            }
+
+            if(viewEl.addEventListener && "ontouchstart" in window) {
+                viewEl.addEventListener("touchstart", _this.touchObj, false);
+            }
+            _this.touchObj.swipe = _this;
+        },
+        showPrevious: function() {
+            if(_this.index > 0) {
+                _this.index = _this.index - 1;
+                _this.translateX(_this.posArr[_this.index]);
+                _this.showPage();
+            }
+        },
+        showNext: function(){
+            var len = _this.itemEls.length - 1;
+            if(_this.index < len) {
+                _this.index = _this.index + 1;
+                _this.translateX(_this.posArr[_this.index]);
+                _this.showPage();
+            }
+        },
+        showSelf: function(){
+            var len = _this.itemEls.length;
+            if(_this.index < len && _this.index > -1) {
+                _this.translateX(_this.posArr[_this.index]);
+            }
+        },
+        showPage: function(){
+            var el = _this.pageArr[_this.index];
+
+            if(el) {
+                var preEl = el.previousElementSibling;
+                preEl && _this._removeClass(preEl, "on");
+                var nextEl = el.nextElementSibling;
+                nextEl && _this._removeClass(nextEl, "on");
+                _this._addClass(el, "on");
+            }
+        },
+        translateOffsetX: function(offsetX) {
+            var curX = _this.posArr[_this.index];
+            var max = _this.posArr[0];
+            var min = _this.posArr[_this.posArr.length - 1];
+            var totalX = cur + offsetX;
+            if(totalX > max || totalX < min) {
+                return;
+            }
+            _this.translateX(totalX);
+        },
+        translateX: function(x, el) {
+            el = el || _this.wrapEl;
+            el.style.webkitTransform = "translateX(" + x + "px)";
+        },
+        _addClass: function(el, className) {
+            if(!el) {
+                return;
+            }
+            var name = el.getAttribute("class");
+            var result = name;
+            if(name) {
+                result += " " + className;
+            } else {
+                result = className;
+            }
+            el.setAttribute("class", result);
+        },
+        _removeClass: function(el, className){
+            if(!el) {
+                return;
+            }
+            var nameArr = className.split(" ");
+            var result = el.getAttribute("class") || "";
+            for(var i = 0, len = nameArr.length; i < len; i++) {
+                var name = nameArr[i];
+                result = result.replace(name, "");
+            }
+            result = result.replace(/^\s+|\s+$/g, "");
+            el.setAttribute("class", result);
+        },
+        _setItemPos: function(offsetX){
+            for(var i = 0, len = _this.itemEls.length; i < len; i++) {
+                var x = offsetX - i * _this.itemWidth;
+                _this.posArr.push(x);
+            }
+        }
+    };
+
+    var viewEl = document.getElementById("swipe");
+    var wrapEl = document.getElementById("swipeContainer");
+    var pageEl = document.getElementById("swipePage");
+    setTimeout(function(){
+        Swipe.init(viewEl, wrapEl, pageEl);
+        var clickFn = function(e) {
+            var width = document.body.clientWidth;
+            if(e.pageX > width/2){
+                Swipe.showNext();
+            }else{
+                Swipe.showPrevious();
+            }
+            e.preventDefault();
+            e.stopPropagation();
+        };
+        document.addEventListener("click", clickFn, false);
+    }, 100);
+</script>
+</body>
+</html>
