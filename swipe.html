@@ -117,16 +117,16 @@
                     var deltaY = endY - this.startY;
                     var width = this.swipe.viewEl.offsetWidth;
 
-                    this.swipe.addTransition();
-
-                    if(Math.abs(deltaX) < (width / 4)) {
+                    if(Math.abs(deltaX) < (width / 2)) {
                         this.swipe.showSelf();
-                        return;
-                    }
-                    if(deltaX < 0) {
-                        this.swipe.showNext();
-                    }else if(deltaX > 0){
-                        this.swipe.showPrevious();
+                        this.swipe.addTransition();
+                    } else {
+                        this.swipe.addTransition();
+                        if(deltaX < 0) {
+                            this.swipe.showNext();
+                        }else if(deltaX > 0){
+                            this.swipe.showPrevious();
+                        }
                     }
                     this.swipe.viewEl.removeEventListener("touchmove", this, false);
                     this.swipe.viewEl.removeEventListener("touchend", this, false);
