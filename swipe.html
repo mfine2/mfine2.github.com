@@ -108,13 +108,19 @@
                     var endY = touch.pageY;
                     var deltaX = endX - this.startX;
                     var deltaY = endY - this.startY;
-                    var width = this.swipe.viewEl.offsetWidth;
+                    var width = this.swipe.itemWidth;
+                    var absX = Math.abs(deltaX);
+                    var ratio = absX / width;
 
-                    if(Math.abs(deltaX) < (width / 2)) {
-                        this.swipe.setTransition(0.1);
+                    alert(width);
+                    alert(deltaX);
+                    alert(absX < (width / 2));
+
+                    if(absX < (width / 2)) {
+                        this.swipe.setTransition(ratio * 0.5);//0.5系数，是加速一倍
                         this.swipe.showSelf();
                     } else {
-                        this.swipe.setTransition();
+                        this.swipe.setTransition(ratio);
                         if(deltaX < 0) {
                             this.swipe.showNext();
                         }else if(deltaX > 0){
@@ -162,7 +168,6 @@
             }
             _this.touchObj.swipe = _this;
 
-            alert(_this.viewEl.offsetWidth);
         },
         showPrevious: function() {
             if(_this.index > 0) {
