@@ -113,6 +113,7 @@
                     var absX = Math.abs(deltaX);
                     var ratio = absX / width;
                     var duration = this.swipe.duration * ratio;
+                    alert(duration);
 
                     if(absX < (width / 2)) {
                         this.swipe.setTransition(duration * 0.5);//0.5系数，是加速一倍
