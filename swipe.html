@@ -86,7 +86,7 @@
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
 
-                this.swipe.setTransition(0.1);
+                this.swipe.setTransition(0);
 
                 this.swipe.viewEl.addEventListener("touchmove", this, false);
                 this.swipe.viewEl.addEventListener("touchend", this, false);
@@ -210,6 +210,7 @@
         translateX: function(x, el) {
             el = el || _this.wrapEl;
             el.style.webkitTransform = "translateX(" + x + "px)";
+            el.style.transform = "translateX(" + x + "px)";
         },
         setTransition: function(duration, el) {
             if(duration === undefined) {
@@ -217,6 +218,7 @@
             }
             el = el || _this.wrapEl;
             el.style.webkitTransition = "-webkit-transform " + duration + "s ease-in-out";
+            el.style.transition = "transform " + duration + "s ease-in-out";
         },
         _addClass: function(el, className) {
             if(!el) {
