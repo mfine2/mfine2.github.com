@@ -14,6 +14,8 @@
             position: relative;
         }
         .swipeContainer {
+        }
+        .swipeTransition {
             -webkit-transition: -webkit-transform 0.8s ease-in-out;
             -moz-transition: -moz-transform 0.8s ease-in-out;
             -o-transition: -o-transform 0.8s ease-in-out;
@@ -47,7 +49,7 @@
 <body>
 
 <div class="swipe" id="swipe">
-    <div id="swipeContainer" class="swipeContainer">
+    <div id="swipeContainer" class="swipeContainer swipeTransition">
         <a href="javascript:;" class="swipeItem"><img src="./images/img001.jpg" /></a>
         <a href="javascript:;" class="swipeItem"><img src="./images/img002.jpg" /></a>
         <a href="javascript:;" class="swipeItem"><img src="./images/img003.jpg" /></a>
@@ -64,6 +66,7 @@
         wrapEl: null,
         itemEls: [],
         itemWidth: 0,
+        transitionClass: "",
 
         index: 0,
         posArr: [],
@@ -88,6 +91,9 @@
                 var touch = touches[0];
                 this.startX = touch.pageX;
                 this.startY = touch.pageY;
+
+                this.swipe.removeTransition();
+
                 this.swipe.viewEl.addEventListener("touchmove", this, false);
                 this.swipe.viewEl.addEventListener("touchend", this, false);
                 e.preventDefault();
@@ -110,6 +116,9 @@
                     var deltaX = endX - this.startX;
                     var deltaY = endY - this.startY;
                     var width = this.swipe.viewEl.offsetWidth;
+
+                    this.swipe.addTransition();
+
                     if(Math.abs(deltaX) < (width / 4)) {
                         this.swipe.showSelf();
                         return;
@@ -126,7 +135,7 @@
             }
         },
 
-        init: function(viewEl, wrapEl, pageEl) {
+        init: function(viewEl, wrapEl, transitionClass, pageEl) {
             if(!viewEl || !wrapEl) {
                 throw new Error("parameter viewEl and wrapEl can not be null");
                 return;
@@ -141,6 +150,8 @@
             var viewWidth = _this.viewEl.offsetWidth - 2;//todo remove border temp
             var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
             _this.translateX(initOffsetX);
+
+            _this.transitionClass = transitionClass || "swipeTransition";
 
             _this.index = 0;
             _this._setItemPos(initOffsetX);
@@ -202,6 +213,12 @@
             el = el || _this.wrapEl;
             el.style.webkitTransform = "translateX(" + x + "px)";
         },
+        addTransition: function() {
+            _this._addClass(_this.wrapEl, _this.transitionClass);
+        },
+        removeTransition: function(){
+            _this._removeClass(_this.wrapEl, _this.transitionClass);
+        },
         _addClass: function(el, className) {
             if(!el) {
                 return;
@@ -240,7 +257,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     setTimeout(function(){
-        Swipe.init(viewEl, wrapEl, pageEl);
+        Swipe.init(viewEl, wrapEl, "swipeTransition", pageEl);
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
