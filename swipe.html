@@ -256,7 +256,7 @@
     var viewEl = document.getElementById("swipe");
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
-    setTimeout(function(){
+    window.addEventListener("load", function() {
         Swipe.init(viewEl, wrapEl, "swipeTransition", pageEl);
         var clickFn = function(e) {
             var width = document.body.clientWidth;
@@ -269,7 +269,7 @@
             e.stopPropagation();
         };
         document.addEventListener("click", clickFn, false);
-    }, 100);
+    }, false);
 </script>
 </body>
 </html>
