@@ -113,7 +113,6 @@
                     var absX = Math.abs(deltaX);
                     var ratio = absX / width;
                     var duration = this.swipe.duration * ratio;
-                    alert(duration);
 
                     if(absX < (width / 2)) {
                         this.swipe.setTransition(duration * 0.5);//0.5系数，是加速一倍
@@ -264,7 +263,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init(viewEl, wrapEl, 0.4, pageEl);
+        Swipe.init(viewEl, wrapEl, 0.3, pageEl);
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
