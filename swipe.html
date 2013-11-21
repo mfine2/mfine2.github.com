@@ -112,6 +112,7 @@
                     var width = this.swipe.viewEl.offsetWidth;
 
                     if(Math.abs(deltaX) < (width / 2)) {
+                        this.swipe.setTransition(0.1);
                         this.swipe.showSelf();
                     } else {
                         this.swipe.setTransition();
@@ -161,6 +162,8 @@
                 _this.viewEl.addEventListener("touchstart", _this.touchObj, false);
             }
             _this.touchObj.swipe = _this;
+
+            alert(_this.swipe.viewEl.offsetWidth);
         },
         showPrevious: function() {
             if(_this.index > 0) {
@@ -258,7 +261,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init(viewEl, wrapEl, 0.5, pageEl);
+        Swipe.init(viewEl, wrapEl, 0.4, pageEl);
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
