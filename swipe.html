@@ -8,7 +8,6 @@
         .swipe {
             max-width: 100%;
             height: 200px;
-            border: 1px solid #e4e4e4;
             margin: 0 auto;
             overflow: hidden;
             position: relative;
@@ -144,7 +143,7 @@
             _this.itemEls = _this.wrapEl.children;
             //itemMargin: 10,//left + right,todo calcute
             //_this.itemWidth = _this.itemEls[0].offsetWidth + options.itemMarginLeft + options.itemMarginRight;//todo 元素宽度百分比
-            var viewWidth = _this.viewEl.clientWidth;//no margin
+            var viewWidth = _this.viewEl.clientWidth;//no margin, no border, offsetWidth with border
             var itemWidth = viewWidth - options.viewPaddingLeft - options.viewPaddingRight;
             var pureWidth = itemWidth - options.itemMarginLeft - options.itemMarginRight;
             _this.itemWidth = itemWidth;
