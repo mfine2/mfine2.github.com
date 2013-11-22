@@ -112,10 +112,12 @@
                     var duration = this.swipe.duration * ratio;
 
                     if(absX < (width / 2)) {
-                        this.swipe.setTransition(duration * 0.6);//0.6系数，是加速一倍
+                        var durationFixed = (duration * 0.6).toFixed(2);//0.6系数，是加速一倍
+                        this.swipe.setTransition(durationFixed);
                         this.swipe.showSelf();
                     } else {
-                        this.swipe.setTransition(duration);
+                        var durationFixed = duration.toFixed(2);
+                        this.swipe.setTransition(durationFixed);
                         if(deltaX < 0) {
                             this.swipe.showNext();
                         }else if(deltaX > 0){
@@ -134,27 +136,15 @@
                 throw new Error("parameter can not be null");
                 return;
             }
-            if(!options.viewEl || !options.wrapEl) {
-                throw new Error("parameter viewEl and wrapEl can not be null");
-                return;
-            }
             _this.viewEl = options.viewEl;
             _this.wrapEl = options.wrapEl;
             _this.itemEls = _this.wrapEl.children;
-            //itemMargin: 10,//left + right,todo calcute
-            //_this.itemWidth = _this.itemEls[0].offsetWidth + options.itemMarginLeft + options.itemMarginRight;//todo 元素宽度百分比
             var viewWidth = _this.viewEl.clientWidth;//no margin, no border, offsetWidth with border
-            var itemWidth = viewWidth - options.viewPaddingLeft - options.viewPaddingRight;
-            var pureWidth = itemWidth - options.itemMarginLeft - options.itemMarginRight;
-            _this.itemWidth = itemWidth;
-            //console.log(viewWidth);
-            //console.log(itemWidth);
+            _this.itemWidth = viewWidth - options.viewPaddingLeft - options.viewPaddingRight;//todo 元素宽度百分比
+            var pureWidth = _this.itemWidth - options.itemMarginLeft - options.itemMarginRight;
             _this._setImgs(pureWidth, options.itemMarginLeft, options.itemMarginRight);
-
             _this.wrapEl.style.width = (_this.itemEls.length * _this.itemWidth) + "px";
-            var viewWidth = _this.viewEl.offsetWidth - 2;//todo remove border temp
             var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
-            //todo why no transition then translateX then transition is have transition?
             _this.translateX(initOffsetX);
 
             if(options.duration === undefined) {
@@ -165,13 +155,15 @@
 
             _this.index = 0;
             _this._setItemPos(initOffsetX);
-            //_this.setTransition();
 
             if(pageEl) {
                 _this.pageArr = pageEl.children;
             }
             if(_this.viewEl.addEventListener && "ontouchstart" in window) {
                 _this.viewEl.addEventListener("touchstart", _this.touchObj, false);
+            } else {
+                //todo why no transition then translateX then transition is have transition?
+                _this.setTransition();
             }
             _this.touchObj.swipe = _this;
 
@@ -224,15 +216,15 @@
         translateX: function(x, el) {
             el = el || _this.wrapEl;
             el.style.webkitTransform = "translate(" + x + "px, 0) " + "translateZ(0)";
-            //el.style.transform = "translateX(" + x + "px)";
+            el.style.transform = "translate(" + x + "px, 0) " + "translateZ(0)";
         },
         setTransition: function(duration, el) {
             if(duration === undefined) {
                 duration = _this.duration;
             }
             el = el || _this.wrapEl;
-            el.style.webkitTransition = "-webkit-transform " + duration + "s ease-in-out";
-            //el.style.transition = "transform " + duration + "s ease-in-out";
+            el.style.webkitTransition = "-webkit-transform " + duration + "s ease";
+            el.style.transition = "transform " + duration + "s ease";
         },
         _addClass: function(el, className) {
             if(!el) {
@@ -282,7 +274,7 @@
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
         Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 0, viewPaddingRight: 0, itemMarginLeft: 5, itemMarginRight: 5});
-        //todo img old size may lead to scrollbar appear
+        //todo img height may lead to scrollbar appear, then disappear
         var clickFn = function(e) {
             var width = document.body.clientWidth;
             if(e.pageX > width/2){
@@ -293,7 +285,9 @@
             e.preventDefault();
             e.stopPropagation();
         };
-        //document.addEventListener("click", clickFn, false);
+        if(!("ontouchstart" in window)) {
+            document.addEventListener("click", clickFn, false);
+        }
     }, false);
 </script>
 </body>
