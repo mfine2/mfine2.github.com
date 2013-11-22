@@ -113,7 +113,7 @@
                     var duration = this.swipe.duration * ratio;
 
                     if(absX < (width / 2)) {
-                        this.swipe.setTransition(duration * 0.5);//0.5系数，是加速一倍
+                        this.swipe.setTransition(duration * 0.6);//0.6系数，是加速一倍
                         this.swipe.showSelf();
                     } else {
                         this.swipe.setTransition(duration);
@@ -282,7 +282,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 20, viewPaddingRight: 20, itemMarginLeft: 5, itemMarginRight: 5});
+        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 0, viewPaddingRight: 0, itemMarginLeft: 5, itemMarginRight: 5});
         //todo img old size may lead to scrollbar appear
         var clickFn = function(e) {
             var width = document.body.clientWidth;
