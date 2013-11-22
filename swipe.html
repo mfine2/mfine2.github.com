@@ -223,7 +223,7 @@
         },
         translateX: function(x, el) {
             el = el || _this.wrapEl;
-            el.style.webkitTransform = "translateX(" + x + "px)";
+            el.style.webkitTransform = "translate(" + x + "px, 0) " + "translateZ(0)";
             //el.style.transform = "translateX(" + x + "px)";
         },
         setTransition: function(duration, el) {
