@@ -9,6 +9,7 @@
             max-width: 100%;
             margin: 0 auto;
             position: relative;
+            overflow: hidden;
         }
         .swipeContainer {
             overflow: hidden;
@@ -138,16 +139,18 @@
                 throw new Error("parameter can not be null");
                 return;
             }
+            _this.setScrollBar(false);
             _this.viewEl = options.viewEl;
             _this.wrapEl = options.wrapEl;
             _this.itemEls = _this.wrapEl.children;
             var viewWidth = _this.viewEl.clientWidth;//no margin, no border, offsetWidth with border
             _this.itemWidth = viewWidth - options.viewPaddingLeft - options.viewPaddingRight;//todo 元素宽度百分比
             var pureWidth = _this.itemWidth - options.itemMarginLeft - options.itemMarginRight;
-            _this._setImgs(pureWidth, options.itemMarginLeft, options.itemMarginRight);
+            _this._setInitial(pureWidth, options.itemMarginLeft, options.itemMarginRight);
             _this.wrapEl.style.width = (_this.itemEls.length * _this.itemWidth) + "px";
             var initOffsetX = Math.floor( (viewWidth - _this.itemWidth) / 2);
             _this.translateX(initOffsetX);
+            _this.setScrollBar(true);
 
             if(options.duration === undefined) {
                 _this.duration = 0;
@@ -257,21 +260,28 @@
             result = result.replace(/^\s+|\s+$/g, "");
             el.setAttribute("class", result);
         },
+        setScrollBar: function(isShow) {
+            if(isShow) {
+                document.body.style.overflowY = "";
+            } else {
+                document.body.style.overflowY = "hidden";
+            }
+        },
         _setItemPos: function(offsetX){
             for(var i = 0, len = _this.itemEls.length; i < len; i++) {
                 var x = offsetX - i * _this.itemWidth;
                 _this.posArr.push(x);
             }
         },
-        _setImgs: function(width, marginLeft, marginRight) {
+        _setInitial: function(width, marginLeft, marginRight) {
             var imgs = _this.wrapEl.getElementsByTagName("img");
             for(var i = 0, len = imgs.length; i < len; i++) {
-                var img = imgs[i].parentNode;
-                //img.style.maxWidth = width + "px";
-                img.style.width = width + "px";
-                img.style.height = width + "px";
-                img.style.marginLeft = marginLeft + "px";
-                img.style.marginRight = marginRight + "px";
+                var img = imgs[i];
+                var imgParent = img.parentNode;
+                imgParent.style.maxWidth = width + "px";
+                imgParent.style.marginLeft = marginLeft + "px";
+                imgParent.style.marginRight = marginRight + "px";
+                img.style.maxWidth = "100%";
             }
         }
     };
@@ -280,7 +290,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 100, viewPaddingRight: 100, itemMarginLeft: 5, itemMarginRight: 5});
+        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 0, viewPaddingRight: 0, itemMarginLeft: 0, itemMarginRight: 0});
         //todo img height may lead to scrollbar appear, then disappear
         var clickFn = function(e) {
             var width = document.body.clientWidth;
