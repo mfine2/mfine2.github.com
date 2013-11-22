@@ -7,9 +7,7 @@
     <style type="text/css">
         .swipe {
             max-width: 100%;
-            height: 200px;
             margin: 0 auto;
-            overflow: hidden;
             position: relative;
         }
         .swipeContainer {
@@ -17,8 +15,12 @@
         }
         .swipeItem {
             float: left;
+            overflow: hidden;
+            text-align: center;
         }
         .swipeItem img {
+            /**height: 200px;**/
+            /**height固定会使宽度按比例缩放**/
         }
         .swipePage {
             position: absolute;
@@ -163,7 +165,10 @@
                 _this.viewEl.addEventListener("touchstart", _this.touchObj, false);
             } else {
                 //todo why no transition then translateX then transition is have transition?
-                _this.setTransition();
+                var t = setTimeout(function() {
+                    _this.setTransition();
+                    clearTimeout(t);
+                }, 1);
             }
             _this.touchObj.swipe = _this;
 
@@ -261,8 +266,10 @@
         _setImgs: function(width, marginLeft, marginRight) {
             var imgs = _this.wrapEl.getElementsByTagName("img");
             for(var i = 0, len = imgs.length; i < len; i++) {
-                var img = imgs[i];
-                img.style.maxWidth = width + "px";
+                var img = imgs[i].parentNode;
+                //img.style.maxWidth = width + "px";
+                img.style.width = width + "px";
+                img.style.height = width + "px";
                 img.style.marginLeft = marginLeft + "px";
                 img.style.marginRight = marginRight + "px";
             }
@@ -273,7 +280,7 @@
     var wrapEl = document.getElementById("swipeContainer");
     var pageEl = document.getElementById("swipePage");
     window.addEventListener("load", function() {
-        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 30, viewPaddingRight: 30, itemMarginLeft: 5, itemMarginRight: 5});
+        Swipe.init({viewEl: viewEl, wrapEl: wrapEl, pageEl: pageEl, duration: 0.3, viewPaddingLeft: 100, viewPaddingRight: 100, itemMarginLeft: 5, itemMarginRight: 5});
         //todo img height may lead to scrollbar appear, then disappear
         var clickFn = function(e) {
             var width = document.body.clientWidth;
